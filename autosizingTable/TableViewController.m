@@ -54,30 +54,22 @@
     
     ImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kImageCell forIndexPath:indexPath];
     
-    cell.heightConstraint.constant = [self heightForOrientation:self.interfaceOrientation];
-    // Configure the cell...
-    
-    
+    if ([self.tableView.traitCollection verticalSizeClass] == UIUserInterfaceSizeClassCompact) {
+        cell.heightConstraint.constant  = 20.0f;
+    }
+    else {
+        cell.heightConstraint.constant  = 200.0f;
+    }
+	
     return cell;
 }
 
--(CGFloat)heightForOrientation:(UIInterfaceOrientation)orientation
-{
-    CGFloat height;
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
-        height = 20;
-    }
-    else
-    {
-        height = 200;
-    }
-    
-    return height;
-}
 
--(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
-    [self.tableView reloadData];
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+	self.tableView.rowHeight = UITableViewAutomaticDimension;
+
+
+	[self.tableView reloadData];
 }
 
 
